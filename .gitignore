@@ -103,3 +103,5 @@ ENV/
 \.idea/
 
 __init__\.py
+
+\.DS_Store
