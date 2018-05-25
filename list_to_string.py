@@ -1,3 +1,5 @@
+from module_logging.module_logging import Logging
+
 a = ['key', 'key2', 'key3']
 
 b = ''.join(a)
@@ -13,3 +15,8 @@ print("\t''.join(map(str, a)) {} >> {}\n".format(type(b), b))
 # SQL Query
 b = "'" + "', '".join(map(str, a)) + "'"
 print("\t\"'\" + \"', '\".join(map(str, a)) + \"'\" {} >> {}\n".format(type(b), b))
+
+log = Logging("byLeni")
+
+log.debug("test")
+log.debug("test here is list")
