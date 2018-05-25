@@ -32,6 +32,5 @@ if (rescode == 200):
     print('초미세먼지 {} '.format(inner_data[5].split('㎍/㎥')[0]))
     print('오존지수 {} '.format(inner_data[6].split('ppm')[0]))
 
-
 else:
     print("Error Code:" + rescode)
