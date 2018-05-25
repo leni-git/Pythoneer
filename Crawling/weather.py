@@ -28,9 +28,9 @@ if (rescode == 200):
     print('최저온도 {} '.format(inner_data[0]))
     print('최고온도 {} '.format(inner_data[1]))
     print('체감온도 {} '.format(inner_data[2]))
-    print('미세먼지 {} '.format(inner_data[4]))
-    print('초미세먼지 {} '.format(inner_data[5]))
-    print('오존지수 {} '.format(inner_data[6]))
+    print('미세먼지 {} '.format(inner_data[4].split('㎍/㎥')[0]))
+    print('초미세먼지 {} '.format(inner_data[5].split('㎍/㎥')[0]))
+    print('오존지수 {} '.format(inner_data[6].split('ppm')[0]))
 
 
 else:
