@@ -34,8 +34,8 @@ class Logging:
 
         # 파일 위치를 매번 확인해주어야 하는 것이 매우 귀찮다.
         # 어떻게 하면 자동으로 상대 경로를 찾아서 갈 수 있을까?
-        # os.path.relpath 를 써 봤지만 module_logging 디렉토리가 사라져서 사용할 수가 없었다.
-        with open("module_logging/logging.json", "rt") as f:
+        # os.path.relpath 를 써 봤지만 __logging 디렉토리가 사라져서 사용할 수가 없었다.
+        with open("__logging/logging.json", "rt") as f:
             config = json.load(f)
         logging.config.dictConfig(config)
 
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     print("""
     < python code >
     
-        from module_logging.module_logging import Logging
+        from __logging.__logging import Logging
     
         log = Logging(__name__, [__moduleName__])
         log.debug(__message__)
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     {}
     < console print >
      
-        2018-05-25 15:03:29,599 < module_logging > test .byLeni
+        2018-05-25 15:03:29,599 < __logging > test .byLeni
     """.format('- '*50))
 
 

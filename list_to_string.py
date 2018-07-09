@@ -1,4 +1,4 @@
-from module_logging.module_logging import Logging
+from __logging.__logging import Logging
 
 a = ['key', 'key2', 'key3']
 
