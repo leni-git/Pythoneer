@@ -1,68 +1,85 @@
-if __name__ == "__main__":
-    import socket
-    from _thread import start_new_thread
+class ClientInfo:
+    """
+        Client Info Class
+        It's not action class just Information
+    """
+    def __init__(self, sock, port, num):
+        self.sock = sock
+        self.port = port
+        self.num = num
 
-    from __function import *
+    def self_value_plus(self):
+        self.num += 1
 
-    HOST = ''
-    PORT = 10003
-    ADDR = (HOST, PORT)
-    BUFF_SIZE = 1024
 
-    serverSocket = socket.socket()
-    serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    serverSocket.bind(ADDR)
-    serverSocket.listen(5)
+class ClassTest:
+    """
+        Thread data sharing Test Class
+            1. Are the class values shared?
+                - self.value
+                - def self_value_plus(self): void
+                - def get_value(self): self.value
 
-    print("""
-        Thread data Sharing Test
-        
-            * 메소드 동작을 진행 중일 때 프로그램을 종료하고 싶으시면 강제 종료해 주세요.
-            * 리눅스에서 강제종료 동작( 설정 변경 안 했을 경우 ): Ctrl + C
-            * 파이참에서 강제종료 동작( 설정 변경 안 했을 경우 ): Ctrl + F2
-            
-            1. 메소드에서 지역변수를 사용할 때
-            2. 매번 클래스를 새로 생성하여 매개변수로 전달 할 때 ( 인스턴스 변수, 인스턴스 지역 변수 )
-            3. 최초 1회 클래스 생성 후 생성한 클래스를 매개변수로 전달 할 때 ( 인스턴스 변수, 인스턴스 지역 변수 )
-            
-            0. 종료
-    """)
-    choice = input(' >> ')
+            2. Are the local values in Class shared?
+                - def class_local_value(num): void
+    """
+    def __init__(self):
+        self.value = 0
 
-    if choice == '0':
-        exit(0)
+    @staticmethod
+    def class_local_value(num):
+        # This class-method doesn't use self(Class)
+        # So you can use this "@staticmethod"
+        num -= 1
+        return num
 
-    elif choice == '1':
-        print("\n\tlocal_value_thread start")
+    def self_value_plus(self):
+        self.value += 1
 
-        while True:
-            clientSocket, addr = serverSocket.accept()
-            start_new_thread(local_value_thread, (clientSocket, addr,))
+    def get_value(self):
+        return self.value
 
-    elif choice == '2':
-        print("\n\tclass_value_thread start")
 
-        num = 10
-        while True:
-            clientSocket, addr = serverSocket.accept()
-            client = ClientInfo(clientSocket, addr[1], num)
-            client_test = ClassTest()
+def class_value_thread(client, client_test):
+    """
+        :param client: class ClientInfo()
+        :param client_test: class ClassTest()
+        :return: void
 
-            print("Connected from inside port << {} >>".format(addr[1]))
-            start_new_thread(class_value_thread, (client, client_test, ))
+        Thread data sharing Test Method for Class
+    """
 
-    elif choice == '3':
-        print("\n\tclass_value_thread start")
+    for i in range(10):
+        client.sock.send(('{} 의 {} 번째 num={}, self.value={}'.format(client.port, i, client.num, client_test.get_value())).encode())
+        get_num(client.port, client.num, client_test.get_value())
+        client.num = client_test.class_local_value(client.num)
+        client_test.self_value_plus()
+        input(' >> ')
 
-        num = 10
-        client_test = ClassTest()
-        while True:
-            clientSocket, addr = serverSocket.accept()
-            client = ClientInfo(clientSocket, addr[1], num)
+    print('end << {} >>'.format(client.port))
 
-            print("Connected from inside port << {} >>".format(addr[1]))
-            start_new_thread(class_value_thread, (client, client_test,))
 
+def local_value_thread(sock, addr):
+    """
+    :param sock: (main)clientSocket >> socket Instance
+    :param addr: (main)addr >> dic(ip, port)
+    :return: void
+
+        Thread data sharing Test for Method
+    """
+
+    num = 0
+    for i in range(10):
+        sock.send(('{} 의 {} 번째 num={}'.format(addr[1], i, num)).encode())
+        num += 1
+        get_num(addr[1], num)
+        input(' >> ')
+
+    print('end << {} >>'.format(addr[1]))
+
+
+def get_num(port, num, value=None):
+    if not value:
+        print('{} 의 num={}'.format(port, num))
     else:
-        print('\n\t★ You can choose only from 0 to 3 ★')
-
+        print('{} 의 num={}, value={}'.format(port, num, value))
