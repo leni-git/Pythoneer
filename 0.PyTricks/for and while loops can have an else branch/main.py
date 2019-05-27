@@ -39,9 +39,10 @@ def contains(haystack, needle):
         # "completion clause" 입니다.
         raise ValueError('Needle not found')
 
+
 # Command lines ( 명령문)
-contains([23, 'needle', 0xbadc0ffee], 'needle') # None
-contains([23, 42, 0xbadc0ffee], 'needle') # ValueError: "Needle not found"
+contains([23, 'needle', 0xbadc0ffee], 'needle')  # None
+contains([23, 42, 0xbadc0ffee], 'needle')  # ValueError: "Needle not found"
 # end [ contains ] + + + + + + + + + + + + + + + + + + + +
 
 
