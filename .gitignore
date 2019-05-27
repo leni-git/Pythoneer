@@ -102,6 +102,8 @@ ENV/
 
 \.idea/
 
+# Custom ignore files - Leni ♡
 __init__\.py
-
 \.DS_Store
+.ftpconfig
+.ftpignore
