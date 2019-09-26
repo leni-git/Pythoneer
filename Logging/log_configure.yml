@@ -1,0 +1,41 @@
+version: 1
+
+formatters:
+    consol_format:
+        # format: "%(levelname)s %(asctime)s < %(module)s > %(message)s"
+        # datefmt: "%Y/%m/%d %H:%M:%S"
+        format: "%(levelname)5s < %(module)s > %(message)s"
+    file_format:
+        format: "%(levelname)s %(asctime)s BOARD NO.%(name)s\n\t%(message)s"
+        datefmt: "%Y/%m/%d %H:%M:%S"
+
+handlers:
+    # Test log handler
+    console_log:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: consol_format
+        stream: ext://sys.stdout
+
+    # Real log handler
+    file_log:
+        class: logging.handlers.TimedRotatingFileHandler
+        level: INFO
+        formatter: file_format
+        when: D
+        backupCount: 1
+        filename: "log.log"
+
+loggers:
+    byLeni:
+        level: DEBUG
+        handlers: [console_log]
+        propagate: no
+    rel:
+        level: INFO
+        handlers: [console_log, file_log]
+        propagate: no
+
+root:
+    level: DEBUG
+    handlers: []
