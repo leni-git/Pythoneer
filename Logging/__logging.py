@@ -37,5 +37,5 @@ if __name__ == "__main__":
 
     log = Logging(__name)
     log.debug(__message+' debug function')
-    log.info(__message+' info function')\
+    log.info(__message+' info function')
     log.error(__message+' error function')
