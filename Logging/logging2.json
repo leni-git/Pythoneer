@@ -2,7 +2,8 @@
   "version": 1,
   "formatters": {
     "simple": {
-      "format": "%(asctime)s %(message)s .%(name)s"
+      "format": "%(levelname)s %(asctime)s %(message)s .%(name)s",
+      "datefmt":"%H:%M:%S %p"
     }
   },
   "handlers": {
